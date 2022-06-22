@@ -15,8 +15,11 @@ import { attachPublicRoutes, attachPrivateRoutes } from './routes';
 const establishDatabaseConnection = async (): Promise<void> => {
   try {
     await createDatabaseConnection();
+    console.log('done with this');
   } catch (error) {
+    console.log('Hello error');
     console.log(error);
+    console.log('---------This THING ERRONED-------');
   }
 };
 
@@ -25,8 +28,8 @@ const initializeExpress = (): void => {
 
   app.use(cors());
   app.use(express.json());
-  app.use(express.urlencoded());
-
+  // app.use(express.urlencoded());
+  app.use(express.urlencoded({ extended: true }));
   app.use(addRespondToResponse);
 
   attachPublicRoutes(app);
@@ -42,7 +45,9 @@ const initializeExpress = (): void => {
 };
 
 const initializeApp = async (): Promise<void> => {
+  console.log('Welcome initi');
   await establishDatabaseConnection();
+  console.log('Database initialized');
   initializeExpress();
 };
 
